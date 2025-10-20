@@ -1,12 +1,6 @@
-interface IAddEventInput {
-	id: string;
-}
+import type { IAddEventInput, IEvent } from "@/types/event.types";
 
-type IEvent = IAddEventInput & {
-	createdAt: number;
-};
-
-export const addEventFunctionABC = (event: IAddEventInput): IEvent => {
+export const addEventFunction = (event: IAddEventInput): IEvent => {
 	return {
 		...event,
 		createdAt: Date.now(),
