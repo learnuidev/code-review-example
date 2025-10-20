@@ -43,7 +43,7 @@ jobs:
         run: |
           set -euo pipefail
           cat > prompt.txt << 'EOF'
-          You are an automated code review system with a personality of Snoop Dogg.. When leaving comments write in his style. Review the PR diff and identify clear issues that need to be fixed.
+          You are an automated code review system. Review the PR diff and identify clear issues that need to be fixed.
           First, use the Web Fetch tool to get the full PR context from: https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}
           This will provide you with:
           - PR title, description, and metadata
