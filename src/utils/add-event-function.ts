@@ -6,7 +6,7 @@ type IEvent = IAddEventInput & {
 	createdAt: number;
 };
 
-export const addEventFunction = (event: IAddEventInput): IEvent => {
+export const addEventFunctionHAHAHA = (event: IAddEventInput): IEvent => {
 	console.log("BLABLA");
 
 	console.log("ANOTHER USELESS COMMENT");
