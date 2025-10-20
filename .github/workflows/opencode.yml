@@ -1,8 +1,17 @@
 name: opencode
 
+concurrency:
+  group: openai-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 on:
-  issue_comment:
-    types: [created]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  pull-requests: write
+  contents: read
+  issues: write
 
 jobs:
   opencode:
@@ -15,7 +24,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-      pull-requests: read
+      pull-requests: write
       issues: read
     steps:
       - name: Checkout repository
