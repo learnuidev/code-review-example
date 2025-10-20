@@ -19,7 +19,7 @@ jobs:
           node-version: 20
 
       - name: Install OpenCode CLI
-        run: npm install -g @opencode/cli
+        run: npm install -g opencode-ai
 
       - name: Run OpenCode review with DeepSeek model
         env:
