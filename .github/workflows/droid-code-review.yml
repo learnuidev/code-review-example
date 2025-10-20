@@ -40,6 +40,7 @@ jobs:
         env:
           FACTORY_API_KEY: ${{ secrets.FACTORY_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
           set -euo pipefail
           cat > prompt.txt << 'EOF'
@@ -108,7 +109,7 @@ jobs:
           EOF
           # Run droid exec with the prompt - it will handle PR review submission directly
           echo "Running code review analysis and submitting results..."
-          droid exec --auto high --model claude-sonnet-4-5-20250929 -f prompt.txt
+          droid exec --auto high --model deepseek-chat --api-key $DEEPSEEK_API_KEY -f prompt.txt
       - name: Upload debug artifacts on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
