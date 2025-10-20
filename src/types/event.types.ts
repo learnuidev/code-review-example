@@ -1,5 +1,3 @@
-console.log("yoo");
-
 export interface IAddEventInput {
 	id: string;
 }
