@@ -6,7 +6,7 @@ type IEvent = IAddEventInput & {
 	createdAt: number;
 };
 
-export const addEventFunction = (event: IAddEventInput): IEvent => {
+export const addEventFunctionABC = (event: IAddEventInput): IEvent => {
 	return {
 		...event,
 		createdAt: Date.now(),
