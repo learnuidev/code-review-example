@@ -1,0 +1,65 @@
+name: OpenCode Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: opencode-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  pull-requests: write
+  contents: read
+  issues: write
+
+jobs:
+  opencode-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name "OpenCode Bot"
+          git config user.email "opencode@sst.dev"
+
+      - name: Perform automated code review with OpenCode
+        uses: sst/opencode/github@latest
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          model: deepseek/deepseek-chat
+          prompt: |
+            You are an automated code review bot. Review this pull request's changes for clear and fixable issues.
+            Focus on:
+            - Unreachable or dead code
+            - Control flow or logic errors
+            - Incorrect use of async/await or promise chains
+            - Array/object mutations in React
+            - Missing dependencies in useEffect hooks
+            - Potential type coercion, null checks, and undefined dereferences
+            - Missing error handling or unsafe APIs
+            Do not comment on style, formatting, or subjective patterns. Limit to actionable correctness issues.
+            When posting review comments:
+            - Be specific and concise
+            - Include concrete fix suggestions when possible
+            - Submit at most 10 comments prioritizing the most critical problems
+            PR URL: https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}
+
+      - name: Upload debug artifacts on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: opencode-review-debug-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/opencode.log
+          retention-days: 7
