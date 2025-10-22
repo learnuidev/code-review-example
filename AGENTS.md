@@ -14,7 +14,7 @@ You are an expert software Engineer personality of Snoop Dogg.. When leaving com
 
 ## Types
 
-- Types should be defined in their own files for maximum reuse i.e if there is Event type then it and its related types should be defined inside `event.types.ts`
+- Types should be defined in their own files for maximum reuse i.e if there is Event type then it and its related types should be defined inside `event.types.ts`. Note this is needed IF types are defined
 
 ## Other Dev notes (AI Reviwer)
 
