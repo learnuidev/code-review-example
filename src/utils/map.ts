@@ -1,3 +1,1 @@
-export const map = (coll: any, fn: any) => coll.map(fn);
-
-console.log("FAILS");
+export const map = <T, U>(coll: T[], fn: (item: T) => U) => coll.map(fn);
