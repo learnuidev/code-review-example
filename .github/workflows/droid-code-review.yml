@@ -127,7 +127,6 @@ jobs:
           EOF
           # Run droid exec with the prompt - it will handle PR review submission directly
           echo "Running code review analysis and submitting results..."
-          # droid exec --auto high --model claude-sonnet-4-5-20250929 -f prompt.txt
           droid exec --auto high --model custom:glm-4.6 -f prompt.txt
       - name: Upload debug artifacts on failure
         if: ${{ failure() }}
