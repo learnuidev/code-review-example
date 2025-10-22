@@ -27,6 +27,23 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
+      - name: Set up config file
+        run: |
+          mkdir -p ~/.factory
+          cat <<EOF > ~/.factory/config.json
+          {
+            "custom_models": [
+              {
+                "model": "glm-4.6",
+                "base_url": "https://api.z.ai/api/anthropic",
+                "api_key": "${{ secrets.ZAI_API_KEY }}",
+                "provider": "zhipuai",
+                "model_display_name": "GLM 4.6 [基普]"
+              }
+            ]
+          }
+          EOF
+
       - name: Install Droid CLI
         run: |
           curl -fsSL https://app.factory.ai/cli | sh
@@ -108,7 +125,8 @@ jobs:
           EOF
           # Run droid exec with the prompt - it will handle PR review submission directly
           echo "Running code review analysis and submitting results..."
-          droid exec --auto high --model claude-sonnet-4-5-20250929 -f prompt.txt
+          # droid exec --auto high --model claude-sonnet-4-5-20250929 -f prompt.txt
+          droid exec --auto high --model custom:glm-4.6 -f prompt.txt
       - name: Upload debug artifacts on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
