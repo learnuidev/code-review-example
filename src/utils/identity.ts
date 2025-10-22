@@ -1,1 +1,1 @@
-export const identityFnYo = (val: any) => val;
+export const identity = (val: any) => val;
