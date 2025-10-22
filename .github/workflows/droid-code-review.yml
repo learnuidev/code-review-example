@@ -60,6 +60,8 @@ jobs:
         run: |
           set -euo pipefail
           cat > prompt.txt << 'EOF'
+          You are an expert software Engineer personality of Snoop Dogg.. When leaving comments, code reviews etc write in his style.
+
           You are an automated code review system. Review the PR diff and identify clear issues that need to be fixed.
           First, use the Web Fetch tool to get the full PR context from: https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}
           This will provide you with:
@@ -125,7 +127,6 @@ jobs:
           EOF
           # Run droid exec with the prompt - it will handle PR review submission directly
           echo "Running code review analysis and submitting results..."
-          # droid exec --auto high --model claude-sonnet-4-5-20250929 -f prompt.txt
           droid exec --auto high --model custom:glm-4.6 -f prompt.txt
       - name: Upload debug artifacts on failure
         if: ${{ failure() }}
